@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+<!-- Action -->
+  <record id="action_student" model="ir.actions.act_window">
+    <field name="name">Students</field>
+    <field name="res_model">student.student</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+<!-- List view -->
+  <record id="view_student_list" model="ir.ui.view">
+    <field name="name">student.student.list</field>
+    <field name="model">student.student</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="email"/>
+        <field name="roll_no"/>
+        <field name="department"/>
+        <field name="enrolled_course_count" string="Courses" widget="statinfo"/>
+      </list>
+    </field>
+  </record>
+<!-- Form view -->
+  <record id="view_student_form" model="ir.ui.view">
+    <field name="name">student.student.form</field>
+    <field name="model">student.student</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <button name="action_show_enrolled_courses"
+                  type="object"
+                  class="oe_highlight"
+                  string="Show Enrolled Courses"/>
+          <button class="oe_stat_button"
+                  type="object"
+                  name="action_show_enrolled_courses"
+                  invisible="enrolled_course_count == 0">
+            <field name="enrolled_course_count" widget="statinfo" string="Courses"/>
+          </button>
+        </header>
+        <sheet>
+          <group>
+            <group>
+              <field name="name"/>
+              <field name="email"/>
+            </group>
+            <group>
+              <field name="roll_no"/>
+              <field name="department"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Courses">
+              <field name="course_ids" widget="many2many_tags"/>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>
